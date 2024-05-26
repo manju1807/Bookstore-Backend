@@ -12,6 +12,8 @@ declare global {
 }
 
 const prisma = new PrismaClient();
+
+
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   let token = req.headers.authorization;
   if (!token && req.cookies.token) {
@@ -38,3 +40,4 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     return next();
   }
 };
+

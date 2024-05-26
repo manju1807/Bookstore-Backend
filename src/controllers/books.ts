@@ -28,19 +28,57 @@ export const uploadBooks: RequestHandler[] = [
   }
 ];
 
-
+// get all books handler
 export const getBooks = async (req: Request, res: Response) => {
-  const books = await db.book.findMany();
+  try {
+    const books = await db.book.findMany();
+    if (books) res.status(200).json(books);
+  } catch (error) {
+    res.json({ error: error });
+  }
 };
 
+// get book by Id handler
 export const getBookById = async (req: Request, res: Response) => {
-
+  try {
+    const book = await db.book.findUnique({
+    where: { id: req.params.id }
+    });
+    if(book) res.status(200).json(book)
+  } catch (error) {
+    res.json({ error: error });
+  }
 };
 
+// edit book By id handler
 export const editBook = async (req: Request, res: Response) => {
-
+  try {
+    const { title, author, publishedDate, price } = req.body;
+    const bookId = req.params.id;
+    const user = (req as any).user;
+    if (!user || user.role !== 'SELLER') {
+      return res.status(403).json({ success: false, message: 'Access denied.' });
+    }
+    const book = await db.book.findUnique({ where: { id: bookId } });
+    if (!book) {
+      return res.status(404).json({ success: false, message: 'Book not found.' });
+    }
+    if (book.sellerId !== user.userId) {
+      return res.status(403).json({ success: false, message: 'Access denied.' });
+    }
+    const updatedBook = await db.book.update({
+      where: { id: bookId },
+      data: { title, author, publishedDate, price },
+    });
+    return res.status(200).json({ success: true, message: 'Book updated successfully.', updatedBook });
+  } catch (error) {
+    console.error('Error updating book:', error);
+    return res.status(500).json({ success: false, message: 'Internal server error.', error });
+  }
 };
 
+
+// delete book By id handler
 export const deleteBook = async (req: Request, res: Response) => {
   try {
     if (req.user) {

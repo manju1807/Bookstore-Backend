@@ -1,7 +1,7 @@
 // src/routes/books.ts
 import { Router } from 'express';
 import { authMiddleware } from '../middlewares/auth.js';
-import { uploadBooks } from '../controllers/books.js';
+import { deleteBook, editBook, getBookById, getBooks, uploadBooks } from '../controllers/books.js';
 
 //config
 const router = Router();
@@ -11,12 +11,11 @@ router.use(authMiddleware);
 
 //routes
 
-/* 
-Route: /upload
-Method: POST
-*/
 router.post('/upload', uploadBooks);
-
+router.get('/', getBooks);
+router.get('/:id', getBookById);
+router.put('/:id', editBook);
+router.delete('/:id', deleteBook);
 
 
 export { router as bookRoutes };
