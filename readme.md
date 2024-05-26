@@ -1,4 +1,4 @@
-# Bookstore Backend With Node.js, Express.js, Typescript, Prisma ORM , PostgreSQL & Multer for CSV File Handling
+# Bookstore Backend With Node.js, Express.js, Typescript, Prisma ORM & PostgreSQL
 
 ## Features
 
@@ -32,50 +32,38 @@
 2. **Install Dependencies:**
 
 ```bash/Terminal
-
 npm install
-
 ```
 
 3.**Configure ENV variables:**
 
 ```ENV file
-
 DATABASE_URL="postgresql://<username>:<password>@<host>:<port>/<database>?schema=public"
 JWT_SECRET="your_jwt_secret_key"
-
 ```
 
 4.**Setup DATABASE:**
 
 ```Terminal
-
 npx prisma init
-
 ```
 
 5.**Initialise Schema:**
 
 ```Terminal
-
 npx prisma generate
-
 ```
 
 6.**Run database Migrations**
 
 ```Terminal
-
 npx prisma migrate dev --name init
-
 ```
 
 7.**Start the Server**
 
 ```nodejs
-
 npm run dev
-
 ```
 
 This will start the backend server on <http://localhost:3000>.
